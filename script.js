@@ -1,3 +1,7 @@
+const buttons = document.querySelectorAll(".number");
+const display = document.querySelector(".display");
+
+
 const num1 = 0;
 const num2 = 0;
 const operator = "";
@@ -38,5 +42,12 @@ function operate (num1, operator, num2){
     }
 }
 
+buttons.forEach(button => {
+    button.addEventListener("click", function () {
+
+        display.textContent += button.textContent;
+        
+    });
+});
 
 console.log(operate(5, "*", 5));
