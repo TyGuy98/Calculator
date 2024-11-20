@@ -1,3 +1,9 @@
+const num1 = 0;
+const num2 = 0;
+const operator = "";
+
+
+
 function addNumbers (num1, num2){
     return num1 + num2;
 }
