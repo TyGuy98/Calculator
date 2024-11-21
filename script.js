@@ -1,8 +1,10 @@
-const buttons = document.querySelectorAll(".number");
+const numberButtons = document.querySelectorAll(".number");
+const operatorButtons = document.querySelectorAll(".operator");
 const display = document.querySelector(".display");
+const clearBtn = document.querySelector(".clear");
 
 
-const num1 = 0;
+const arrayOne = [];
 const num2 = 0;
 const operator = "";
 
@@ -42,12 +44,30 @@ function operate (num1, operator, num2){
     }
 }
 
-buttons.forEach(button => {
+numberButtons.forEach(button => {
     button.addEventListener("click", function () {
-
         display.textContent += button.textContent;
-        
+        arrayOne.push(parseInt(button.textContent, 10));
+        console.log(arrayOne);
     });
 });
 
-console.log(operate(5, "*", 5));
+
+
+operatorButtons.forEach(button => {
+    button.addEventListener("click", function () {
+        display.textContent += button.textContent;
+        const numOne = arrayOne.reduce((accum, element) => (accum * 10) + element, 0);
+        console.log(numOne);
+    });
+});
+
+
+clearBtn.addEventListener("click", function () {
+    display.textContent = "";
+});
+
+const digits = [1, 2, 3, 4, 5];
+const int = digits.reduce((accum, digit) => (accum * 10) + digit, 0);
+
+console.log(int);
