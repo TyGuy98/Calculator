@@ -2,46 +2,49 @@ const numberButtons = document.querySelectorAll(".number");
 const operatorButtons = document.querySelectorAll(".operator");
 const display = document.querySelector(".display");
 const clearBtn = document.querySelector(".clear");
+const equalBtn = document.querySelector(".equal");
 
 
 let arrayOne = [];
 let arrayTwo = [];
+let numOne = 0;
+let numTwo = 0;
 let isAddingToArrayOne = true;
-const operator = "";
+let operator = "";
 
 
 
-function addNumbers (num1, num2){
-    return num1 + num2;
+function addNumbers (numOne, numTwo){
+    return numOne + numTwo;
 }
 
-function subtractNumbers (num1, num2){
-    return num1 - num2;
+function subtractNumbers (numOne, numTwo){
+    return numOne - numTwo;
 }
 
-function divideNumbers (num1, num2){
-    return num1 / num2;
+function divideNumbers (numOne, numTwo){
+    return numOne / numTwo;
 }
 
-function multiplyNumbers (num1, num2){
-    return num1 * num2;
+function multiplyNumbers (numOne, numTwo){
+    return numOne * numTwo;
 }
 
-function operate (num1, operator, num2){
+function operate (numOne, numTwo, operator){
     if (operator === "+"){
-        return addNumbers(num1, num2);
+        return addNumbers(numOne, numTwo);
     }
 
     if (operator === "-"){
-        return subtractNumbersNumbers(num1, num2);
+        return subtractNumbers(numOne, numTwo);
     }
 
     if (operator === "/"){
-        return divideNumbersNumbers(num1, num2);
+        return divideNumbers(numOne, numTwo);
     }
 
-    if (operator === "*"){
-        return multiplyNumbers(num1, num2);
+    if (operator === "x"){
+        return multiplyNumbers(numOne, numTwo);
     }
 }
 
@@ -57,7 +60,8 @@ numberButtons.forEach(button => {
 operatorButtons.forEach(button => {
     button.addEventListener("click", function () {
         display.textContent += button.textContent;
-        const numOne = arrayOne.reduce((accum, element) => (accum * 10) + element, 0);
+        operator = button.textContent;
+        numOne = arrayOne.reduce((accum, element) => (accum * 10) + element, 0);
         isAddingToArrayOne = false;
         console.log(numOne);
     });
@@ -80,5 +84,14 @@ clearBtn.addEventListener("click", function () {
     display.textContent = "";
     arrayOne = [];
     arrayTwo = [];
+    numOne = 0;
+    numTwo = 0;
+    isAddingToArrayOne = true;
+    operator = "";
 });
 
+
+equalBtn.addEventListener("click", function () {
+    numTwo = arrayTwo.reduce((accum, element) => (accum * 10) + element, 0);
+    display.textContent = operate(numOne, numTwo,operator);
+});
