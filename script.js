@@ -5,53 +5,59 @@ const clearBtn = document.querySelector(".clear");
 const equalBtn = document.querySelector(".equal");
 
 
-let arrayOne = [];
-let arrayTwo = [];
+let inputOne = [];
+let inputTwo = [];
 let numOne = 0;
 let numTwo = 0;
-let isAddingToArrayOne = true;
+let isAddingToinputOne = true;
+let resultShown = false;
 let operator = "";
 
-
-
-function addNumbers (numOne, numTwo){
+const calculator = {
+    add: function(numOne, numTwo){
     return numOne + numTwo;
-}
+},
 
-function subtractNumbers (numOne, numTwo){
+    subtract: function(numOne, numTwo){
     return numOne - numTwo;
-}
+},
 
-function divideNumbers (numOne, numTwo){
+    multiply: function(numOne, numTwo){
+    return numOne * numTwo;
+},
+
+    divide: function(numOne, numTwo){
     return numOne / numTwo;
 }
 
-function multiplyNumbers (numOne, numTwo){
-    return numOne * numTwo;
 }
 
-function operate (numOne, numTwo, operator){
+
+
+function operate(numOne, numTwo, operator){
     if (operator === "+"){
-        return addNumbers(numOne, numTwo);
+        return calculator.add(numOne, numTwo);
     }
 
     if (operator === "-"){
-        return subtractNumbers(numOne, numTwo);
+        return calculator.subtract(numOne, numTwo);
     }
 
     if (operator === "/"){
-        return divideNumbers(numOne, numTwo);
+        return calculator.divide(numOne, numTwo);
     }
 
     if (operator === "x"){
-        return multiplyNumbers(numOne, numTwo);
+        return calculator.multiply(numOne, numTwo);
     }
 }
 
 numberButtons.forEach(button => {
     button.addEventListener("click", function () {
-        display.textContent += button.textContent;
-        addToArray(button.textContent);
+        newInput();
+        let number = button.textContent;
+        addToDisplay(number);
+        addToArray(number);
     });
 });
 
@@ -59,39 +65,75 @@ numberButtons.forEach(button => {
 
 operatorButtons.forEach(button => {
     button.addEventListener("click", function () {
-        display.textContent += button.textContent;
         operator = button.textContent;
-        numOne = arrayOne.reduce((accum, element) => (accum * 10) + element, 0);
-        isAddingToArrayOne = false;
+        addToDisplay(operator);
+        arrayToInteger();
         console.log(numOne);
     });
 });
 
-function addToArray (number) {
-        if (isAddingToArrayOne === true){
-            arrayOne.push(parseInt(number, 10));
-            console.log(arrayOne);
+function addToArray(number) {
+        if (isAddingToinputOne === true){
+            inputOne.push(parseInt(number, 10));
+            console.log(`arrayOne: ${inputOne}`);
         }
         
         else {
-            arrayTwo.push(parseInt(number, 10));
-            console.log(arrayTwo);
+            inputTwo.push(parseInt(number, 10));
+            console.log(`arrayTwo: ${inputTwo}`);
         }
 }
 
 
-clearBtn.addEventListener("click", function () {
+clearBtn.addEventListener("click", clearAll);
+
+function clearAll() {
     display.textContent = "";
-    arrayOne = [];
-    arrayTwo = [];
+    operator = "";
+    inputOne = [];
+    inputTwo = [];
     numOne = 0;
     numTwo = 0;
-    isAddingToArrayOne = true;
-    operator = "";
-});
+    isAddingToinputOne = true;
+    resultShown === false;
+}
+
+
 
 
 equalBtn.addEventListener("click", function () {
-    numTwo = arrayTwo.reduce((accum, element) => (accum * 10) + element, 0);
+    arrayToInteger();
     display.textContent = operate(numOne, numTwo,operator);
+    resultShown = true;
+    isAddingToinputOne = true;
+    console.log(`array 1: ${inputOne}`);
+    console.log(`array 2: ${inputTwo}`);
 });
+
+
+function arrayToInteger() {
+    if (isAddingToinputOne === true) {
+        numOne = inputOne.reduce((accum, element) => (accum * 10) + element, 0);
+        isAddingToinputOne = false;
+    }
+    
+    else {
+        numTwo = inputTwo.reduce((accum, element) => (accum * 10) + element, 0);
+    }
+    
+}
+
+function addToDisplay(input) {
+    display.textContent += input;
+}
+
+function newInput(number) {
+    if (resultShown === true) {
+        display.textContent = "";
+        inputOne = [];
+        inputTwo = [];
+        resultShown = false;
+        console.log(`array 1: ${inputOne}`);
+        console.log(`array 2: ${inputTwo}`);
+    }
+}
