@@ -9,27 +9,28 @@ let inputOne = [];
 let inputTwo = [];
 let numOne = 0;
 let numTwo = 0;
+let result = 0;
 let isAddingToinputOne = true;
 let resultShown = false;
+let firstOperator = true;
 let operator = "";
 
 const calculator = {
-    add: function(numOne, numTwo){
-    return numOne + numTwo;
-},
+        add: function(numOne, numTwo){
+        return numOne + numTwo;
+    },
 
-    subtract: function(numOne, numTwo){
-    return numOne - numTwo;
-},
+        subtract: function(numOne, numTwo){
+        return numOne - numTwo;
+    },
 
-    multiply: function(numOne, numTwo){
-    return numOne * numTwo;
-},
+        multiply: function(numOne, numTwo){
+        return numOne * numTwo;
+    },
 
-    divide: function(numOne, numTwo){
-    return numOne / numTwo;
-}
-
+        divide: function(numOne, numTwo){
+        return numOne / numTwo;
+    }
 }
 
 
@@ -58,6 +59,7 @@ numberButtons.forEach(button => {
         let number = button.textContent;
         addToDisplay(number);
         addToArray(number);
+        console.log(`result: ${result}`)
     });
 });
 
@@ -65,75 +67,109 @@ numberButtons.forEach(button => {
 
 operatorButtons.forEach(button => {
     button.addEventListener("click", function () {
+        console.log(`operatorButtons`);
+        isNextOperator();
         operator = button.textContent;
-        addToDisplay(operator);
+        addToDisplay(` ${operator} `);
         arrayToInteger();
+        firstOperator = false;
         console.log(numOne);
+        console.log(numTwo);
+        console.log(`result: ${result}`)
+        console.log(`numOne: ${numOne}`);
+        console.log(`numTwo: ${numTwo}`);
+        
     });
 });
 
 function addToArray(number) {
         if (isAddingToinputOne === true){
             inputOne.push(parseInt(number, 10));
-            console.log(`arrayOne: ${inputOne}`);
+            console.log(`InputOne: ${inputOne}`);
+            console.log(`numOne: ${numOne}`);
         }
         
         else {
             inputTwo.push(parseInt(number, 10));
-            console.log(`arrayTwo: ${inputTwo}`);
+            console.log(`InputTwo: ${inputTwo}`);
+            console.log(`numTwo: ${numTwo}`);
         }
 }
 
 
 clearBtn.addEventListener("click", clearAll);
 
+equalBtn.addEventListener("click", calculateResult);
+
 function clearAll() {
     display.textContent = "";
-    operator = "";
     inputOne = [];
     inputTwo = [];
-    numOne = 0;
-    numTwo = 0;
     isAddingToinputOne = true;
-    resultShown === false;
+    resultShown = false;
+    console.log(`result: ${result}`)
+    console.log(`clearAll`);
 }
-
-
-
-
-equalBtn.addEventListener("click", function () {
-    arrayToInteger();
-    display.textContent = operate(numOne, numTwo,operator);
-    resultShown = true;
-    isAddingToinputOne = true;
-    console.log(`array 1: ${inputOne}`);
-    console.log(`array 2: ${inputTwo}`);
-});
 
 
 function arrayToInteger() {
     if (isAddingToinputOne === true) {
         numOne = inputOne.reduce((accum, element) => (accum * 10) + element, 0);
         isAddingToinputOne = false;
+        console.log(`numOne: ${numOne}`);
     }
-    
     else {
         numTwo = inputTwo.reduce((accum, element) => (accum * 10) + element, 0);
+        console.log(`numOne: ${numOne}`);
     }
     
 }
 
 function addToDisplay(input) {
     display.textContent += input;
+    console.log(`result: ${result}`);
+    console.log(`addToDisplay`);
 }
+
+function calculateResult(){
+    console.log(`${inputOne} ${inputTwo}`);
+    arrayToInteger();
+    console.log(`numOne: ${numOne}, numTwo: ${numTwo}`);
+    console.log(`operate`);
+    result = operate(numOne, numTwo,operator);
+    console.log(`result: ${result}`);
+    display.textContent = result;
+    isAddingToinputOne = true;
+    resultShown = true;
+    
+    console.log(`calculateResult()`);
+    return result;
+} 
 
 function newInput(number) {
     if (resultShown === true) {
-        display.textContent = "";
-        inputOne = [];
-        inputTwo = [];
-        resultShown = false;
-        console.log(`array 1: ${inputOne}`);
-        console.log(`array 2: ${inputTwo}`);
+        clearAll();
+        console.log(`numOne: ${numOne}, numTwo: ${numTwo}`);
+        console.log(`result: ${result}`);
+        console.log(`newInput`);
     }
 }
+
+
+
+function isNextOperator (){
+    if (firstOperator === false){
+        console.log(`isNextOperator`);
+        display.textContent = (`${calculateResult()} `);
+        numOne = parseInt(result);
+        numTwo = 0;
+        inputOne = result.toString().split('').map(Number);
+        inputTwo = [];
+        isAddingToinputOne = false;
+        resultShown = false;
+        console.log(`numOne: ${numOne}, numTwo: ${numTwo}`);
+        console.log(`result: ${result}`);
+    }
+}
+
+
