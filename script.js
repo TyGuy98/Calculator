@@ -127,23 +127,23 @@ function arrayToInteger() {
 
 function addToDisplay(input) {
     display.textContent += input;
-    console.log(`result: ${result}`);
-    console.log(`addToDisplay`);
+
+    if (resultShown === true){
+        display.textContent = result;
+    }
 }
 
 function calculateResult(){
+    console.log(`calculateResult()`);
     console.log(`${inputOne} ${inputTwo}`);
     arrayToInteger();
     console.log(`numOne: ${numOne}, numTwo: ${numTwo}`);
     console.log(`operate`);
     result = operate(numOne, numTwo,operator);
-    console.log(`result: ${result}`);
-    display.textContent = result;
-    isAddingToinputOne = true;
     resultShown = true;
-    
-    console.log(`calculateResult()`);
-    return result;
+    addToDisplay();
+    console.log(`result: ${result}`);
+    isAddingToinputOne = true;
 } 
 
 function newInput(number) {
@@ -160,7 +160,7 @@ function newInput(number) {
 function isNextOperator (){
     if (firstOperator === false){
         console.log(`isNextOperator`);
-        display.textContent = (`${calculateResult()} `);
+        calculateResult();
         numOne = parseInt(result);
         numTwo = 0;
         inputOne = result.toString().split('').map(Number);
