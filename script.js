@@ -55,8 +55,8 @@ function operate(numOne, numTwo, operator){
 
 numberButtons.forEach(button => {
     button.addEventListener("click", function () {
-        newInput();
         let number = button.textContent;
+        startNewCalculation(number);
         addToDisplay(number);
         addToArray(number);
         console.log(`result: ${result}`)
@@ -146,9 +146,13 @@ function calculateResult(){
     isAddingToinputOne = true;
 } 
 
-function newInput(number) {
+function startNewCalculation(number) {
     if (resultShown === true) {
-        clearAll();
+        display.textContent = "";
+        inputOne = [];
+        inputTwo = [];
+        resultShown = false;
+        firstOperator = true
         console.log(`numOne: ${numOne}, numTwo: ${numTwo}`);
         console.log(`result: ${result}`);
         console.log(`newInput`);
@@ -163,7 +167,7 @@ function isNextOperator (){
         calculateResult();
         numOne = parseInt(result);
         numTwo = 0;
-        inputOne = result.toString().split('').map(Number);
+        inputOne = numberToArray(result);
         inputTwo = [];
         isAddingToinputOne = false;
         resultShown = false;
@@ -173,3 +177,7 @@ function isNextOperator (){
 }
 
 
+
+function numberToArray(number){
+    return number.toString().split('').map(Number);
+}
