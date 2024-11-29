@@ -13,7 +13,9 @@ let result = 0;
 let isAddingToinputOne = true;
 let resultShown = false;
 let firstOperator = true;
+let isNegative = false;
 let operator = "";
+
 
 const calculator = {
         add: function(numOne, numTwo){
@@ -69,10 +71,11 @@ operatorButtons.forEach(button => {
     button.addEventListener("click", function () {
         console.log(`operatorButtons`);
         isNextOperator();
-        operator = button.textContent;
-        addToDisplay(` ${operator} `);
-        arrayToInteger();
         firstOperator = false;
+        operator = button.textContent;
+
+        addToDisplay(` ${operator} `);
+        arrayToInteger(operator);
         console.log(numOne);
         console.log(numTwo);
         console.log(`result: ${result}`)
@@ -83,17 +86,20 @@ operatorButtons.forEach(button => {
 });
 
 function addToArray(number) {
-        if (isAddingToinputOne === true){
-            inputOne.push(parseInt(number, 10));
-            console.log(`InputOne: ${inputOne}`);
-            console.log(`numOne: ${numOne}`);
+    if (isAddingToinputOne === true){
+        checkIfNegative(number);
+        inputOne.push(parseInt(number, 10));
+        console.log(`InputOne: ${inputOne}`);
+        console.log(`numOne: ${numOne}`);
+
         }
         
-        else {
+    else {
+            checkIfNegative(number);
             inputTwo.push(parseInt(number, 10));
             console.log(`InputTwo: ${inputTwo}`);
             console.log(`numTwo: ${numTwo}`);
-        }
+    }
 }
 
 
@@ -105,8 +111,13 @@ function clearAll() {
     display.textContent = "";
     inputOne = [];
     inputTwo = [];
+    numOne = 0;
+    numTwo = 0;
+    result = 0;
     isAddingToinputOne = true;
     resultShown = false;
+    firstOperator = true;
+    operator = "";
     console.log(`result: ${result}`)
     console.log(`clearAll`);
 }
@@ -161,8 +172,8 @@ function startNewCalculation(number) {
 
 
 
-function isNextOperator (){
-    if (firstOperator === false){
+function isNextOperator(){
+    if (firstOperator === false && isNegative === false){
         console.log(`isNextOperator`);
         calculateResult();
         numOne = parseInt(result);
@@ -181,3 +192,18 @@ function isNextOperator (){
 function numberToArray(number){
     return number.toString().split('').map(Number);
 }
+
+function checkIfNegative(number){
+    if( operator === "-" && inputOne.length === 0 || operator === "-" && firstOperator === false){
+        isNegative = true;
+        makeNegative(number);
+    }
+    return number;
+}
+
+function makeNegative(number){
+    isNegative = false;
+    return number = operator + number;
+}
+
+
